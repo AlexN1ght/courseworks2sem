@@ -4,12 +4,12 @@
 typedef struct {
     char name [50];
     char sex;
-    int school;
+    uint32_t school;
     char medal;
     char essay;
-    int exam_1;
-    int exam_2;
-    int exam_3;
+    uint32_t exam_1;
+    uint32_t exam_2;
+    uint32_t exam_3;
 } enrollee;
 
 #endif

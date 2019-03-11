@@ -1,3 +1,10 @@
-Frank K.B.	f	112	y	99	80	80	7
-Freemen K.L	m	814	n	63	63	72	3
-Hitrhow A.B.	f	1943	y	89	87	91	5
+Frank K.B.	f	112	y	99	80	80	y
+Freemen K.L	m	814	n	63	63	72	y
+Hitrhow A.B.	f	1943	y	89	87	91	y
+Povlov M.V	m	773	y	82	76	85	y
+Krupin K.K.	m	1274	n	72	76	69	y
+Nobosadova E.G.	f	1080	y	100	98	98	y
+Freeman B.I.	m	772	n	91	88	80	y
+Makarova M.A	f	914	n	73	69	73	y
+Kabberbatch N.V.	m	1313	n	76	72	80	y
+Kiseleva M.P.	f	771	n	70	70	70	y
