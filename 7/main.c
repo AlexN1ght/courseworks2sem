@@ -1,16 +1,18 @@
 #include<stdio.h>
 #include<math.h>
 
-void readMatrix(int M, int N, int *LB, int *YE)
+void readMatrix(int *M, int *N, int *LB, int *YE)
 {
 	int no = 0;
 	int tmp;
-
-	for (int m = 0; m < M; m++) {
-		for (int n = 0; n < N; n++) {
+	
+	scanf("%d%d", M, N);
+	
+	for (int m = 0; m < *M; m++) {
+		for (int n = 0; n < *N; n++) {
 		scanf("%d", &tmp);
 		if (tmp != 0) {
-			LB[no] = n + m * N;
+			LB[no] = n + m * *N;
 			YE[no] = tmp;
 			no++;
 			}
@@ -48,6 +50,19 @@ void printNormalMatrix(int M, int N, int *LB, int *YE)
 	printf("--------------------\n");
 }
 
+int isDiag(int M, int N, int *LB)
+{
+	if (M != N) {
+		return 0;
+	}
+	for (int i = 0; LB[i] != -1; i++) {
+		if (LB[i] / N != LB[i] % N) {
+			return 0;
+		}
+	}
+	return 1;
+}
+
 void multiplyMatrix(int M_1, int N_1, int *LB_1, int *YE_1, int M_2, int N_2, int *LB_2, int *YE_2)
 {
 	int LB_R[101];
@@ -78,8 +93,6 @@ void multiplyMatrix(int M_1, int N_1, int *LB_1, int *YE_1, int M_2, int N_2, in
 		}
 	}
 
-	printVectorsOfMatrix(LB_R, YE_R);
-
 	for (int z = 0; LB_R[z] != -1; z++) {
 		if (YE_R[z] == 0) {
 			for (int z_2 = z; LB_R[z_2] != -1; z_2++) {
@@ -90,7 +103,14 @@ void multiplyMatrix(int M_1, int N_1, int *LB_1, int *YE_1, int M_2, int N_2, in
 	}
 	printVectorsOfMatrix(LB_R, YE_R);
 	printNormalMatrix(M_1, N_2, LB_R, YE_R);
+	
+	if (isDiag(M_1, N_2, LB_R)) {
+		printf("^Mairix is Diagonal^\n");
+	} else {
+		printf("^Mairix isn't Diagonal^\n");
+	}
 }
+
 
 int main(void)
 {
@@ -103,16 +123,24 @@ int main(void)
 	int N_2;
 	int LB_2[101];
 	int YE_2[100];
-
 	
-	scanf("%d%d", &M_1, &N_1);
-	readMatrix(M_1, N_1, LB_1, YE_1);
-
-	scanf("%d%d", &M_2, &N_2);
-	readMatrix(M_2, N_2, LB_2, YE_2);
+	readMatrix(&M_1, &N_1, LB_1, YE_1);
+	readMatrix(&M_2, &N_2, LB_2, YE_2);
 
 	printNormalMatrix(M_1, N_1, LB_1, YE_1);
+	printVectorsOfMatrix(LB_1, YE_2);
+	if (isDiag(M_1, N_1, LB_1)) {
+		printf("^Mairix is Diagonal^\n");
+	} else {
+		printf("^Mairix isn't Diagonal^\n");
+	}
 	printNormalMatrix(M_2, N_2, LB_2, YE_2);
+	printVectorsOfMatrix(LB_2, YE_2);
+	if (isDiag(M_2, N_2, LB_2)) {
+		printf("^Mairix is Diagonal^\n");
+	} else {
+		printf("^Mairix isn't Diagonal^\n");
+	}
 
 	multiplyMatrix(M_1, N_1, LB_1, YE_1, M_2, N_2, LB_2, YE_2);
 	
