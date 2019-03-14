@@ -1,45 +1,94 @@
 #include<stdio.h>
 #include<math.h>
 
-void readMatrix(int *M, int *N, int *LB, int *YE)
+typedef struct {
+    int M;
+	int N;
+	int LB[101];
+	int YE[100];
+} matrix;
+
+void readMatrix(matrix *A);
+
+void printVectorsOfMatrix(matrix *A);
+
+void printNormalMatrix(matrix *A);
+
+int isDiag(matrix *A);
+
+int multiplyMatrix(matrix *A, matrix *B, matrix *R);
+
+
+int main(void)
+{
+	matrix A;
+	matrix B;
+	matrix R;
+	
+	readMatrix(&A);
+	readMatrix(&B);
+	printf("\nA\n");
+	printNormalMatrix(&A);
+	printVectorsOfMatrix(&B);
+	printf("B\n");
+	printNormalMatrix(&B);
+	printVectorsOfMatrix(&B);
+
+	if (multiplyMatrix(&A, &B, &R) == 1) {
+		printf("Res\n");
+		printNormalMatrix(&R);
+		printVectorsOfMatrix(&R);
+		if (isDiag(&R)) {
+			printf("^Mairix is Diagonal^\n");
+		} else {
+			printf("^Mairix isn't Diagonal^\n");
+		}
+	}
+	putchar('\n');
+
+	return 0;
+}
+
+
+void readMatrix(matrix *A)
 {
 	int no = 0;
 	int tmp;
 	
-	scanf("%d%d", M, N);
+	scanf("%d%d", &A->M, &A->N);
 	
-	for (int m = 0; m < *M; m++) {
-		for (int n = 0; n < *N; n++) {
+	for (int m = 0; m < A->M; m++) {
+		for (int n = 0; n < A->N; n++) {
 		scanf("%d", &tmp);
 		if (tmp != 0) {
-			LB[no] = n + m * *N;
-			YE[no] = tmp;
+			A->LB[no] = n + m * A->N;
+			A->YE[no] = tmp;
 			no++;
 			}
 		}
 	}
-	LB[no] = -1;
+	A->LB[no] = -1;
 }
 
-void printVectorsOfMatrix(int *LB, int *YE)
+void printVectorsOfMatrix(matrix *A)
 {
 	int i = 0;
 	printf("--------------------\nLB	YE\n");
-	while (LB[i] != -1) {
-		printf("%d\t%d\n",LB[i], YE[i]);
+	while (A->LB[i] != -1) {
+		printf("%d\t%d\n",A->LB[i], A->YE[i]);
 		i++;
 	}
-	printf("%d\n--------------------\n",LB[i]);
+	printf("%d\n--------------------\n",A->LB[i]);
 }
 
-void printNormalMatrix(int M, int N, int *LB, int *YE)
+void printNormalMatrix(matrix *A)
 {
 	int no = 0;
 	printf("--------------------\n");
-	for (int m = 0; m < M; m++) {
-		for (int n = 0; n < N; n++) {
-		if (n + m * N == LB[no]) {
-			printf("%d\t", YE[no]);
+	for (int m = 0; m < A->M; m++) {
+		for (int n = 0; n < A->N; n++) {
+		if (n + m * A->N == A->LB[no]) {
+			printf("%d\t", A->YE[no]);
 			no++;
 		} else {
 			printf("0\t");
@@ -50,99 +99,61 @@ void printNormalMatrix(int M, int N, int *LB, int *YE)
 	printf("--------------------\n");
 }
 
-int isDiag(int M, int N, int *LB)
+int isDiag(matrix *A)
 {
-	if (M != N) {
+	if (A->M != A->N) {
 		return 0;
 	}
-	for (int i = 0; LB[i] != -1; i++) {
-		if (LB[i] / N != LB[i] % N) {
+	for (int i = 0; A->LB[i] != -1; i++) {
+		if (A->LB[i] / A->N != A->LB[i] % A->N) {
 			return 0;
 		}
 	}
 	return 1;
 }
 
-void multiplyMatrix(int M_1, int N_1, int *LB_1, int *YE_1, int M_2, int N_2, int *LB_2, int *YE_2)
+int multiplyMatrix(matrix *A, matrix *B, matrix *R)
 {
-	int LB_R[101];
-	int YE_R[100];
+	if (A->N != B->M) {
+		printf("Can't multiply matrices. Number of A's rows isn't match number of B's columns\n");
+		return 0;
+	}
+
+	R->M = A->M;
+	R->N = B->N;
 	for (int i = 0; i < 100;i++) {
-		YE_R[i] = 0;
+		R->YE[i] = 0;
 	}
 
 	int no = 0;
-	LB_R[0] = -1;
+	R->LB[0] = -1;
 
-	for (int i = 0; LB_1[i] != -1; i++) {
-		for (int k = 0; LB_2[k] != -1; k++) {
-			if (LB_1[i] % N_1 == LB_1[k] / N_2) {
+	for (int i = 0; A->LB[i] != -1; i++) {
+		for (int k = 0; B->LB[k] != -1; k++) {
+			if (A->LB[i] % A->N == A->LB[k] / B->N) {
 				no = 0;
-				for (int l = 0; LB_R[l] != -1; l++) {
-					if (LB_1[k] % N_2 + LB_1[i] / N_1 * N_2 == LB_R[l]) {
+				for (int l = 0; R->LB[l] != -1; l++) {
+					if (A->LB[k] % B->N + A->LB[i] / A->N * B->N == R->LB[l]) {
 						break;
 					}
 					no++;
 				}
-				if (LB_R[no] == -1) {
-					LB_R[no + 1] = -1;
+				if (R->LB[no] == -1) {
+					R->LB[no + 1] = -1;
 				}
-				LB_R[no] = LB_1[k] % N_2 + LB_1[i] / N_1 * N_2;
-				YE_R[no] += YE_1[i] * YE_2[k];
+				R->LB[no] = A->LB[k] % B->N + A->LB[i] / A->N * B->N;
+				R->YE[no] += A->YE[i] * B->YE[k];
 			}
 		}
 	}
 
-	for (int z = 0; LB_R[z] != -1; z++) {
-		if (YE_R[z] == 0) {
-			for (int z_2 = z; LB_R[z_2] != -1; z_2++) {
-				LB_R[z_2] = LB_R[z_2 + 1];
-				YE_R[z_2] = YE_R[z_2 + 1];
+	for (int z = 0; R->LB[z] != -1; z++) {
+		if (R->YE[z] == 0) {
+			for (int z_2 = z; R->LB[z_2] != -1; z_2++) {
+				R->LB[z_2] = R->LB[z_2 + 1];
+				R->YE[z_2] = R->YE[z_2 + 1];
 			}
 		}
 	}
-	printVectorsOfMatrix(LB_R, YE_R);
-	printNormalMatrix(M_1, N_2, LB_R, YE_R);
-	
-	if (isDiag(M_1, N_2, LB_R)) {
-		printf("^Mairix is Diagonal^\n");
-	} else {
-		printf("^Mairix isn't Diagonal^\n");
-	}
-}
-
-
-int main(void)
-{
-	int M_1;
-	int N_1;
-	int LB_1[101];
-	int YE_1[100];
-
-	int M_2;
-	int N_2;
-	int LB_2[101];
-	int YE_2[100];
-	
-	readMatrix(&M_1, &N_1, LB_1, YE_1);
-	readMatrix(&M_2, &N_2, LB_2, YE_2);
-
-	printNormalMatrix(M_1, N_1, LB_1, YE_1);
-	printVectorsOfMatrix(LB_1, YE_2);
-	if (isDiag(M_1, N_1, LB_1)) {
-		printf("^Mairix is Diagonal^\n");
-	} else {
-		printf("^Mairix isn't Diagonal^\n");
-	}
-	printNormalMatrix(M_2, N_2, LB_2, YE_2);
-	printVectorsOfMatrix(LB_2, YE_2);
-	if (isDiag(M_2, N_2, LB_2)) {
-		printf("^Mairix is Diagonal^\n");
-	} else {
-		printf("^Mairix isn't Diagonal^\n");
-	}
-
-	multiplyMatrix(M_1, N_1, LB_1, YE_1, M_2, N_2, LB_2, YE_2);
-	
-	return 0;
+	return 1;
 }
