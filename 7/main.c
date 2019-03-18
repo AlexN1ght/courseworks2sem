@@ -29,7 +29,7 @@ int main(void)
 	readMatrix(&B);
 	printf("\nA\n");
 	printNormalMatrix(&A);
-	printVectorsOfMatrix(&B);
+	printVectorsOfMatrix(&A);
 	printf("B\n");
 	printNormalMatrix(&B);
 	printVectorsOfMatrix(&B);
@@ -130,7 +130,7 @@ int multiplyMatrix(matrix *A, matrix *B, matrix *R)
 
 	for (int i = 0; A->LB[i] != -1; i++) {
 		for (int k = 0; B->LB[k] != -1; k++) {
-			if (A->LB[i] % A->N == A->LB[k] / B->N) {
+			if (A->LB[i] % A->N == B->LB[k] / B->N) {
 				no = 0;
 				for (int l = 0; R->LB[l] != -1; l++) {
 					if (A->LB[k] % B->N + A->LB[i] / A->N * B->N == R->LB[l]) {
@@ -141,12 +141,11 @@ int multiplyMatrix(matrix *A, matrix *B, matrix *R)
 				if (R->LB[no] == -1) {
 					R->LB[no + 1] = -1;
 				}
-				R->LB[no] = A->LB[k] % B->N + A->LB[i] / A->N * B->N;
+				R->LB[no] = B->LB[k] % B->N + A->LB[i] / A->N * B->N;
 				R->YE[no] += A->YE[i] * B->YE[k];
 			}
 		}
 	}
-
 	for (int z = 0; R->LB[z] != -1; z++) {
 		if (R->YE[z] == 0) {
 			for (int z_2 = z; R->LB[z_2] != -1; z_2++) {
