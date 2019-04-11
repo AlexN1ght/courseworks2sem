@@ -31,3 +31,17 @@ void list_print(List *lst)
         tmp = tmp->next;
     }
 }
+
+
+void list_destroy(List **lst) 
+{
+    List *tmp = (*lst)->next;
+    List *next = NULL;
+    while (tmp != *lst) {
+        next = tmp->next;
+        free(tmp);
+        tmp = next;
+    }
+    free(*lst);
+    (*lst) = NULL;
+}

@@ -17,17 +17,16 @@ int main(void)
 				scanf("%d", &st);
 				A[st] = list_create();
 				break;
-			/*
+
             case 'd':
 				scanf("%d", &st);
 				if (A[st] != NULL) {
-					stack_delete(&A[st]);
+					list_destroy(&A[st]);
 				} else {
-					printf("Stack dose not exist\n");
+					printf("List dose not exist\n");
 				}
 				break;
-            */
-			case 'i':
+			case 'a':
 				scanf("%d", &st);
 				if (A[st] == NULL) {
 					printf("?\n");
@@ -41,6 +40,17 @@ int main(void)
 				}
 				break;
             /*
+            case 'i':
+				scanf("%d", &st);
+				if (A[st] == NULL) {
+					printf("?\n");
+					break;
+				}
+                int no;
+				scanf("%d%d",&no , &val);
+				list_insert(A[st], no, val);
+				break;
+            
 			case 'o':
 				scanf("%d", &st);
 				if (A[st] == NULL) {
@@ -54,15 +64,6 @@ int main(void)
 					printf("The stack is empty\n");
 				}
 				break;
-			case 's':
-				scanf("%d", &st);
-				if (A[st] == NULL) {
-					printf("?\n");
-					break;
-				}
-				getchar();
-				sort(A[st]);
-				break;
             */
 			case 'p':
 				scanf("%d", &st);
@@ -74,13 +75,11 @@ int main(void)
 				list_print(A[st]);
 				break;
 			case 'q':
-            /*
 				for (int i = 0; i < 10; i++) {
 					if (A[i] != NULL) {
-						stack_delete(&A[i]);
+						list_destroy(&A[i]);
 					}
 				}
-            */
 				return 0;
 				break;
 			case ' ':
