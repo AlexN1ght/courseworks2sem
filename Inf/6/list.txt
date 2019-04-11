@@ -8,3 +8,6 @@ Freeman B.I.	m	772	n	91	88	80	y
 Makarova M.A	f	914	n	73	69	73	y
 Kabberbatch N.V.	m	1313	n	76	72	80	y
 Kiseleva M.P.	f	771	n	70	70	70	y
+Tsapkov A.M	m	771	n	91	80	80	y
+Kalita K.V.	f	1166	n	70	83	76	y
+Pavlov A.V.	m	228	n	53	60	55	n
