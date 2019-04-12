@@ -5,6 +5,7 @@ int main(void)
 {
 	char c;
 	int st;
+	int no;
 	int val;
 	List *A[10];
 	for (int i = 0; i < 10; i++) {
@@ -39,32 +40,28 @@ int main(void)
 					}
 				}
 				break;
-            /*
             case 'i':
 				scanf("%d", &st);
 				if (A[st] == NULL) {
 					printf("?\n");
 					break;
 				}
-                int no;
-				scanf("%d%d",&no , &val);
-				list_insert(A[st], no, val);
+				scanf("%d %d",&no , &val);
+				if (list_insert(A[st], no, val)) {
+					printf("?\n");
+				}
 				break;
-            
-			case 'o':
+			case 'r':
 				scanf("%d", &st);
 				if (A[st] == NULL) {
 					printf("?\n");
 					break;
 				}
-				getchar();
-				if (!stack_is_empty(A[st])) {
-					stack_pop(A[st]);
-				} else {
-					printf("The stack is empty\n");
+				scanf("%d",&no);
+				if (list_remove(A[st], no)) {
+					printf("?\n");
 				}
 				break;
-            */
 			case 'p':
 				scanf("%d", &st);
 				if (A[st] == NULL) {

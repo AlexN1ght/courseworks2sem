@@ -13,8 +13,8 @@ typedef struct List {
 
 List* list_create(void);
 void list_destroy(List **lst);
-void list_delete (List *lst, int i);
-void list_insert(List *lst, int i, data_type value);
+int list_remove(List *lst, int i);
+int list_insert(List *lst, int i, data_type value);
 void list_push(List *lst, data_type value);
 void list_print(List *lst);
 int list_size(List *lst);
