@@ -5,10 +5,15 @@
 
 typedef int data_type;
 
-typedef struct List {
+typedef struct Node{
     data_type data;
-    struct List *next;
-    struct List *prev;
+    struct Node *next;
+    struct Node *prev;
+} Node;
+
+typedef struct List {
+    int size;
+    Node *barr;
 } List;
 
 List* list_create(void);
