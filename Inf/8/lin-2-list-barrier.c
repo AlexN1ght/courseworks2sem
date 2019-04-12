@@ -48,6 +48,7 @@ int list_remove(List *lst, int i)
 	if (i == 0 || i > lst->data) {
 		return 1;
 	}
+    lst->data--;
 	List *Tmp = lst;
 	for (int k = 0; k < i; k++) {
 		Tmp = Tmp->next;
