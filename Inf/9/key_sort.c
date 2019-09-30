@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <time.h>
+#include <sys/time.h>
 
 
 int is_num(char c)
@@ -70,15 +71,18 @@ int main(void)
     for(int i = 0; i < N; i++) {
         printf("%f %s\n",keys[i], (char*)vals[i]);
     }
-    long start = clock();
+    struct timeval stop, start;
+	gettimeofday(&start, NULL);
     heapSort(keys, vals, N);
+    gettimeofday(&stop, NULL);
+    long timeDiff = (long)((stop.tv_sec - start.tv_sec) * 1000.0f + (stop.tv_usec - start.tv_usec) / 1000.0f);
+    printf("%ld\n", clock());
     puts("");
     puts("Sorted:");
     for(int i = 0; i < N; i++) {
         printf("%f %s\n",keys[i], (char*)vals[i]);
     }
-    printf("%ld\n", clock() - start);
-    getchar();
+    printf("%ld\n", timeDiff);
     float key;
     char c;
     int i = 0;

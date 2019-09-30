@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include "lin-2-list-barrier.h"
+#define ever ;;
 
 #define LISTS_NUM 10
 
@@ -16,7 +17,7 @@ int main(void)
 	for (int i = 0; i < LISTS_NUM; i++) {
 		A[i] = NULL;
 	}
-	while (1){
+	for(ever) {
 		scanf("%c", &c);
 		switch (c) {
 			case 'c':
